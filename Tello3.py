@@ -16,7 +16,7 @@ port = 9000
 locaddr = (host,port) 
 
 
-# Create a UDP socket
+# UDP socket 만들기
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 tello_address = ('192.168.10.1', 8889)
@@ -41,7 +41,7 @@ print ('Tello: command takeoff land flip forward back left right \r\n       up d
 print ('end -- quit demo.\r\n')
 
 
-#recvThread create
+#recvThread 만들기
 recvThread = threading.Thread(target=recv)
 recvThread.start()
 
@@ -49,10 +49,10 @@ while True:
     try:
         python_version = str(platform.python_version())
         version_init_num = int(python_version.partition('.')[0]) 
-       # print (version_init_num)
-        if version_init_num == 3:
+       # 파이썬 버전 체크
+        if version_init_num == 3: # 파이선 버전이 3이면 input함수로 보냄
             msg = input("");
-        elif version_init_num == 2:
+        elif version_init_num == 2: # 파이선 버전이 2이면 raw_input함수로 보냄
             msg = raw_input("");
         
         if not msg:
@@ -63,9 +63,10 @@ while True:
             sock.close()  
             break
 
-        # Send data
+        # 데이터 보내는 부분
         msg = msg.encode(encoding="utf-8") 
         sent = sock.sendto(msg, tello_address)
+        
     except KeyboardInterrupt:
         print ('\n . . .\n')
         sock.close()  
